@@ -90,12 +90,33 @@ namespace OptShopAPI.Controllers
             var result = from p in _context.products where p.name.Contains(query) select p.name;
             if (result.Count() > 0)
             {
-                return result.ToList();
+                return result.Distinct().ToList();
             }
             else
             {
                 return NotFound(query);
             }
+        }
+
+        [HttpGet("api/Prod/{keyword}")]
+        public ActionResult<IEnumerable<Product>> Recomendations(string keyword)
+        {
+            if(_context.products == null)
+            {
+                return NotFound();
+            }
+
+            var result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(8).ToList(); 
+
+            if(result.Count() > 0) {
+                foreach (var r in result)
+                {
+                    var firstImage = SplitString(r.photoSrc);
+                    r.photoSrc = firstImage.First();
+                }
+                return result;
+            }
+            else { return NotFound(keyword); }
         }
 
 
