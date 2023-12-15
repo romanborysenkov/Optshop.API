@@ -66,7 +66,7 @@ namespace OptShopAPI.Controllers
                 {
                     foreach(var r in result)
                         {
-                          var firstImage = SplitString(r.photoSrc);
+                          var firstImage =StringService.SplitString(r.photoSrc);
                           r.photoSrc = firstImage.First();
                         }
                     return result.ToList();
@@ -111,7 +111,7 @@ namespace OptShopAPI.Controllers
             if(result.Count() > 0) {
                 foreach (var r in result)
                 {
-                    var firstImage = SplitString(r.photoSrc);
+                    var firstImage = StringService.SplitString(r.photoSrc);
                     r.photoSrc = firstImage.First();
                 }
                 return result;
@@ -160,7 +160,7 @@ namespace OptShopAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-           var names = SplitString(product.photoName);
+           var names = StringService.SplitString(product.photoName);
             product.photoSrc = "";
             foreach(var name in names)
             {
@@ -212,12 +212,6 @@ namespace OptShopAPI.Controllers
             return (_context.products?.Any(e => e.id == id)).GetValueOrDefault();
         }
 
-        static List<string> SplitString(string input)
-        {
-            string[] parts = input.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
-
-            List<string> result = new List<string>(parts);
-            return result;
-        }
+      
     }
 }

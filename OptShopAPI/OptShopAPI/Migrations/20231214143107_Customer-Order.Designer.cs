@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OptShopAPI.Data;
 
@@ -10,9 +11,11 @@ using OptShopAPI.Data;
 namespace OptShopAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231214143107_Customer-Order")]
+    partial class CustomerOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -24,35 +27,21 @@ namespace OptShopAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("city")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("country")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("eircode")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("houseNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("mailbox")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("orderIds")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("orderId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("phoneNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("plz")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("postalCode")
@@ -62,11 +51,9 @@ namespace OptShopAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("streetAddress")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("username")
-                        .IsRequired()
+                    b.Property<string>("userName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("zip_code")
@@ -82,9 +69,6 @@ namespace OptShopAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("color")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("productCount")
                         .HasColumnType("INTEGER");

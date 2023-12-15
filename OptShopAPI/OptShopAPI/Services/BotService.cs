@@ -44,6 +44,7 @@ namespace OptShopAPI.Services
 
             if(msg.Text == "/start")
             {
+                ChatId ids = msg.Chat.Id;
                await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
             }
 
@@ -58,6 +59,7 @@ namespace OptShopAPI.Services
             // 385113590
 
         }
+
         Product product = new Product();
         int property = 1;
         List<Telegram.Bot.Types.File> photos = new List<Telegram.Bot.Types.File>();
@@ -65,9 +67,6 @@ namespace OptShopAPI.Services
 
         public async void OnShapingProduct(object sender, MessageEventArgs e)
         {
-
-
-
             
             switch (property)
             {
@@ -173,6 +172,13 @@ namespace OptShopAPI.Services
                 }
             } 
         }
+        private long MyChatId = 385113590;
+
+        public  async void SendingDataAboutCustomer(string message)
+        {
+            await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
+       }
+      
 
         static string GenerateRandomString(int length)
         {
