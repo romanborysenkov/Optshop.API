@@ -13,5 +13,7 @@ namespace OptShopAPI.Models
         public int productCount {  get; set; }
 
          public string? color {get;set;}
+
+        public string? description { get;set;}
     }
 }

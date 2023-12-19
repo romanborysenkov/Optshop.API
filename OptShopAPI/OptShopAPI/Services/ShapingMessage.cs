@@ -21,7 +21,7 @@ namespace OptShopAPI.Services
             {
                 message +="<b>Замовлення №: "+(i+1)+ "</b>\nНазва: " + customedProducts[i].name + "\nЦіна: " + customedProducts[i].price +
                     "$\nКолір: " + orderedProductsIdsAndCount[i].color + "\nКількість: "+ 
-                    orderedProductsIdsAndCount[i].productCount + "\n\n";
+                    orderedProductsIdsAndCount[i].productCount + "\n"+"Коментар: "+ orderedProductsIdsAndCount[i].description+"\n\n";
             }
            
 
