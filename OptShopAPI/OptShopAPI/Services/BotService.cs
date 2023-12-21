@@ -44,7 +44,7 @@ namespace OptShopAPI.Services
 
             if(msg.Text == "/start")
             {
-                ChatId ids = msg.Chat.Id;
+               // ChatId ids = msg.Chat.Id;
                await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
             }
 
@@ -55,6 +55,11 @@ namespace OptShopAPI.Services
                 await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи ім'я товару: ");
 
 
+            }
+            if(msg.Text == "/delete_product")
+            {
+            client.OnMessage -= OnMessageReceiver;
+            client.OnMessage += OnDeleteProduct;
             }
             // 385113590
 
@@ -191,6 +196,11 @@ namespace OptShopAPI.Services
 
             return randomString;
         } 
+
+       public void OnDeleteProduct(object sender, MessageEventArgs e){
+
+        }
+
         }
     }
 

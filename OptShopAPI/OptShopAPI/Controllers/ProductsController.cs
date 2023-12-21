@@ -105,8 +105,15 @@ namespace OptShopAPI.Controllers
             {
                 return NotFound();
             }
-
-            var result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(8).ToList(); 
+            List<Product>result = new List<Product>();
+            if(keyword == "undefined")
+            {
+                
+                result = _context.products.Take(12).ToList(); 
+            }else{
+              
+             result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(12).ToList(); 
+            }
 
             if(result.Count() > 0) {
                 foreach (var r in result)
@@ -175,7 +182,7 @@ namespace OptShopAPI.Controllers
 
         }
 
-           [HttpPost("{UploadFile}")]
+        [HttpPost("{UploadFile}")]
         public async Task<IActionResult> PostImage()
         {
           var httpRequest = HttpContext.Request;
