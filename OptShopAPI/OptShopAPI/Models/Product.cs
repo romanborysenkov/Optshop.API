@@ -12,23 +12,25 @@ namespace OptShopAPI.Models
         public int id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(200)]
         public string? name { get; set; }
 
         [Required]
-        [StringLength(50)]
+        
         public string? description { get; set; }
 
         [Required]
         public int? price { get; set; }
 
         [Required]
-        [StringLength(50)]
+       
         public string? characters { get; set; }
 
         public string? photoName { get; set; }
 
         public string? color { get; set; }
+
+        public int minimalCount { get; set; }
 
         
         [NotMapped]

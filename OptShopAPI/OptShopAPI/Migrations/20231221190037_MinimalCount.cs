@@ -5,23 +5,24 @@
 namespace OptShopAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate3 : Migration
+    public partial class MinimalCount : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "color",
+            migrationBuilder.AddColumn<int>(
+                name: "minimalCount",
                 table: "products",
-                type: "TEXT",
-                nullable: true);
+                type: "INTEGER",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "color",
+                name: "minimalCount",
                 table: "products");
         }
     }

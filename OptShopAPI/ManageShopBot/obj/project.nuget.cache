@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7ZLvnzPKuMWbKPxLdGxfjfoPJ5GOJ3QfMBefJ2b95isC85P6Hv+s//HsWtnrt8v3NYjeYT4i0cQg3ygu2+PWsg==",
+  "dgSpecHash": "mGPM+hVhtlgn/gpIUQHSJmm7R7ZPJg7k6m+e2sH0J/t1UWsMPxrkzpR6Eec+WsKfRI+ey3nbuihjeEYMd/BsWQ==",
   "success": true,
-  "projectFilePath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
+  "projectFilePath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Roma\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Roma\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

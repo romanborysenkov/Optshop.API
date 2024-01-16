@@ -22,9 +22,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors();
 
+/*
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Use camelCase or other naming policy
+    options.JsonSerializerOptions.WriteIndented = true;
+});
+*/
+
 var app = builder.Build();
 
-app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+app.UseCors(options => options.WithOrigins("http://127.0.0.1:5700", "http://192.168.1.14:5700").AllowAnyMethod().AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

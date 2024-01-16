@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj": {}
+    "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj": {}
   },
   "projects": {
-    "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj": {
+    "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
+        "projectUniqueName": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
         "projectName": "ManageShopBot",
-        "projectPath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
+        "projectPath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\ManageShopBot.csproj",
         "packagesPath": "C:\\Users\\Roma\\.nuget\\packages\\",
-        "outputPath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ManageShopBot\\obj\\",
+        "outputPath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ManageShopBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

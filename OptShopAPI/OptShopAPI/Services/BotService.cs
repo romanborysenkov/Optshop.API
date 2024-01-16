@@ -29,11 +29,8 @@ namespace OptShopAPI.Services
 
         public void StopWork()
         {
-
-           
             Console.ReadLine();
             client.StopReceiving();
-
         }
 
 
@@ -44,6 +41,7 @@ namespace OptShopAPI.Services
 
             if(msg.Text == "/start")
             {
+               // ChatId ids = msg.Chat.Id;
                await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
             }
 
@@ -55,9 +53,11 @@ namespace OptShopAPI.Services
 
 
             }
+           
             // 385113590
 
         }
+
         Product product = new Product();
         int property = 1;
         List<Telegram.Bot.Types.File> photos = new List<Telegram.Bot.Types.File>();
@@ -65,9 +65,6 @@ namespace OptShopAPI.Services
 
         public async void OnShapingProduct(object sender, MessageEventArgs e)
         {
-
-
-
             
             switch (property)
             {
@@ -93,12 +90,17 @@ namespace OptShopAPI.Services
                     property += 1;
                     break;
                 case 5:
-
                     product.color = e.Message.Text;
-                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кількість зображень, які заллєш: ");
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи мінімальну кількість товару: ");
                     property += 1;
                     break;
                 case 6:
+
+                    product.minimalCount = int.Parse(e.Message.Text);
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кількість зображень, які заллєш: ");
+                    property += 1;
+                    break;
+                case 7:
                   
                      photosCount = int.Parse(e.Message.Text);
 
@@ -154,8 +156,7 @@ namespace OptShopAPI.Services
 
             using (HttpClient client = new HttpClient())
                 {
-
-
+              //  product.characters = product.characters.Replace("\n", "<p>");
                     var request = JsonConvert.SerializeObject(product);
 
                     var fin = new StringContent(request, Encoding.UTF8, "application/json");
@@ -173,6 +174,13 @@ namespace OptShopAPI.Services
                 }
             } 
         }
+        private long MyChatId = 385113590;
+
+        public  async void SendingDataAboutCustomer(string message)
+        {
+            await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
+       }
+      
 
         static string GenerateRandomString(int length)
         {
@@ -185,6 +193,9 @@ namespace OptShopAPI.Services
 
             return randomString;
         } 
+
+      
+
         }
     }
 

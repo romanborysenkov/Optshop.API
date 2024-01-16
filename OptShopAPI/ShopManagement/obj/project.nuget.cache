@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MmC//y+zRJ7MUTXOREstvyZCfDtv91fiaAjkzA9el05i3X06nO9NkM5Jj+Hly1ngsmoJsS85lQxfv812yruYMg==",
+  "dgSpecHash": "gR7wUzEzXQ/dXky69NZB30pFPhKSXLdu8LC7z46TQQrSBbgIWVV9OMZ8pG1yuMRjH7epTxKmuTJpjTzv0ldU4w==",
   "success": true,
-  "projectFilePath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\ShopManagement\\ShopManagement.csproj",
+  "projectFilePath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\ShopManagement\\ShopManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Roma\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
     "C:\\Users\\Roma\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",

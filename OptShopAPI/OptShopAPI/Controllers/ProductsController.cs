@@ -10,6 +10,7 @@ using OptShopAPI.Models;
 using OptShopAPI.IServices;
 using OptShopAPI.Services;
 using System.Configuration;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace OptShopAPI.Controllers
 {
@@ -51,12 +52,21 @@ namespace OptShopAPI.Controllers
             List<Product> result = new List<Product>();
             if (desc == "highest")
             {
-                 result = _context.products.Where(x => x.name.Contains(name)).Take(int.Parse(count)).OrderByDescending(p => p.price).ToList();//from product in _context.products where product.name == name select product;
+                 result = _context.products
+                    .Where(x => x.name.ToLower().Contains(name.ToLower()) ||
+                    EF.Functions.Like(x.name.ToLower(), name.ToLower() + "%") ||
+                    EF.Functions.Like(x.name.ToLower(), "%"+name.ToLower()) || 
+                    EF.Functions.Like(x.name.ToLower(), "%"+name.ToLower()+"%"))
+                    .Take(int.Parse(count))
+                    .OrderByDescending(p => p.price).ToList();//from product in _context.products where product.name == name select product;
             }
 
             if (desc == "lowest")
             {
-                result = _context.products.Where(x => x.name.Contains(name)).Take(int.Parse(count)).OrderBy(p => p.price).ToList();//from product in _context.products where product.name == name select product;
+                result = _context.products.Where(x => x.name.ToLower().Contains(name.ToLower()) ||
+                    EF.Functions.Like(x.name.ToLower(), name.ToLower() + "%") ||
+                    EF.Functions.Like(x.name.ToLower(), "%" + name.ToLower()) ||
+                    EF.Functions.Like(x.name.ToLower(), "%" + name.ToLower() + "%")).Take(int.Parse(count)).OrderBy(p => p.price).ToList();//from product in _context.products where product.name == name select product;
 
                 //result.Reverse();
             }
@@ -66,7 +76,7 @@ namespace OptShopAPI.Controllers
                 {
                     foreach(var r in result)
                         {
-                          var firstImage = SplitString(r.photoSrc);
+                          var firstImage =StringService.SplitString(r.photoSrc);
                           r.photoSrc = firstImage.First();
                         }
                     return result.ToList();
@@ -87,7 +97,7 @@ namespace OptShopAPI.Controllers
                 return NotFound();
             }
             // var result = from product in _context.products where product.name == query select product.name;
-            var result = from p in _context.products where p.name.Contains(query) select p.name;
+            var result = from p in _context.products where p.name.ToLower().Contains(query.ToLower()) select p.name;
             if (result.Count() > 0)
             {
                 return result.Distinct().ToList();
@@ -105,13 +115,24 @@ namespace OptShopAPI.Controllers
             {
                 return NotFound();
             }
-
-            var result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(8).ToList(); 
+            List<Product>result = new List<Product>();
+            if(keyword == "undefined")
+            {
+                
+                result = _context.products.Take(12).ToList(); 
+            }else{
+              
+             result = _context.products.Where(x => x.name.ToLower().Contains(keyword.ToLower()) ||
+                    EF.Functions.Like(x.name.ToLower(), keyword.ToLower() + "%") ||
+                    EF.Functions.Like(x.name.ToLower(), "%" + keyword.ToLower()) ||
+                    EF.Functions.Like(x.name.ToLower(), "%" + keyword.ToLower() + "%"))
+                    .Take(12).ToList(); 
+            }
 
             if(result.Count() > 0) {
                 foreach (var r in result)
                 {
-                    var firstImage = SplitString(r.photoSrc);
+                    var firstImage = StringService.SplitString(r.photoSrc);
                     r.photoSrc = firstImage.First();
                 }
                 return result;
@@ -160,7 +181,7 @@ namespace OptShopAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-           var names = SplitString(product.photoName);
+           var names = StringService.SplitString(product.photoName);
             product.photoSrc = "";
             foreach(var name in names)
             {
@@ -175,7 +196,7 @@ namespace OptShopAPI.Controllers
 
         }
 
-           [HttpPost("{UploadFile}")]
+        [HttpPost("{UploadFile}")]
         public async Task<IActionResult> PostImage()
         {
           var httpRequest = HttpContext.Request;
@@ -212,12 +233,6 @@ namespace OptShopAPI.Controllers
             return (_context.products?.Any(e => e.id == id)).GetValueOrDefault();
         }
 
-        static List<string> SplitString(string input)
-        {
-            string[] parts = input.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
-
-            List<string> result = new List<string>(parts);
-            return result;
-        }
+      
     }
 }

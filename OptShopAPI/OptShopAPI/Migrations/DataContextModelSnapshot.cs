@@ -17,6 +17,89 @@ namespace OptShopAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
+            modelBuilder.Entity("OptShopAPI.Models.Customer", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("city")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("country")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("eircode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("houseNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("mailbox")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("orderIds")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("phoneNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("plz")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("postalCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("province")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("streetAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("zip_code")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("customers");
+                });
+
+            modelBuilder.Entity("OptShopAPI.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("productCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("productId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("orders");
+                });
+
             modelBuilder.Entity("OptShopAPI.Models.Product", b =>
                 {
                     b.Property<int>("id")
@@ -35,6 +118,9 @@ namespace OptShopAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("minimalCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("name")
                         .IsRequired()

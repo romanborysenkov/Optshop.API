@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6nZ7ofE8mRQ9o3QpFRlJqw3soOAoIWZ+c2vTNbHqbdFIyFGiHjv+ZCOnt8z4xXse2cMOl0wb7/J1HmjUiolIwg==",
+  "dgSpecHash": "dgZYZm/w4CDvZAiH1m/epJItfbSWdlutkO/W/txnQCVMHyftGeOsoxYZ89L+Zm3ZsxqGJ/WMAOI3qDXVdRFrrw==",
   "success": true,
-  "projectFilePath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
+  "projectFilePath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Roma\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Roma\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

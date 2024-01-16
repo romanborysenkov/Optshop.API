@@ -11396,11 +11396,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
+      "projectUniqueName": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
       "projectName": "OptShopAPI",
-      "projectPath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
+      "projectPath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\OptShopAPI\\OptShopAPI.csproj",
       "packagesPath": "C:\\Users\\Roma\\.nuget\\packages\\",
-      "outputPath": "F:\\programming\\Angular\\OptShop\\OptShopAPI\\OptShopAPI\\obj\\",
+      "outputPath": "F:\\programming\\Angular\\OptShop\\Optshop.API\\OptShopAPI\\OptShopAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
