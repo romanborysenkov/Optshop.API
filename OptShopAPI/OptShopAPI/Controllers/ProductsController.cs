@@ -66,7 +66,7 @@ namespace OptShopAPI.Controllers
                 {
                     foreach(var r in result)
                         {
-                          var firstImage = SplitString(r.photoSrc);
+                          var firstImage =StringService.SplitString(r.photoSrc);
                           r.photoSrc = firstImage.First();
                         }
                     return result.ToList();
@@ -105,13 +105,20 @@ namespace OptShopAPI.Controllers
             {
                 return NotFound();
             }
-
-            var result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(8).ToList(); 
+            List<Product>result = new List<Product>();
+            if(keyword == "undefined")
+            {
+                
+                result = _context.products.Take(12).ToList(); 
+            }else{
+              
+             result = _context.products.Where(p=>EF.Functions.Like(p.name, keyword+"%")).Take(12).ToList(); 
+            }
 
             if(result.Count() > 0) {
                 foreach (var r in result)
                 {
-                    var firstImage = SplitString(r.photoSrc);
+                    var firstImage = StringService.SplitString(r.photoSrc);
                     r.photoSrc = firstImage.First();
                 }
                 return result;
@@ -160,7 +167,7 @@ namespace OptShopAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-           var names = SplitString(product.photoName);
+           var names = StringService.SplitString(product.photoName);
             product.photoSrc = "";
             foreach(var name in names)
             {
@@ -175,7 +182,7 @@ namespace OptShopAPI.Controllers
 
         }
 
-           [HttpPost("{UploadFile}")]
+        [HttpPost("{UploadFile}")]
         public async Task<IActionResult> PostImage()
         {
           var httpRequest = HttpContext.Request;
@@ -212,12 +219,6 @@ namespace OptShopAPI.Controllers
             return (_context.products?.Any(e => e.id == id)).GetValueOrDefault();
         }
 
-        static List<string> SplitString(string input)
-        {
-            string[] parts = input.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
-
-            List<string> result = new List<string>(parts);
-            return result;
-        }
+      
     }
 }
