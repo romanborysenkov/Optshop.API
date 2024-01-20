@@ -86,12 +86,12 @@ namespace OptShopAPI.Services
                     break;
                 case 4:
                     product.characters = e.Message.Text;
-                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кольори товару в стилі HEX.\n\n Це типу ось так: #274543 \n Визначити код кольору можна, ввівши в гуглі color picker. \n\n І введи всі кольори через пробіл");
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кольори товару англійською через пробіл:");
                     property += 1;
                     break;
                 case 5:
                     product.color = e.Message.Text;
-                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи мінімальну кількість товару: ");
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи мінімальну кількість товару, яку може замовити користувач: ");
                     property += 1;
                     break;
                 case 6:
@@ -129,9 +129,8 @@ namespace OptShopAPI.Services
                 client.OnMessage -= ReceivePhotos;
                 property = 1;
                 SendProductAsync();
-              
+                await client.SendTextMessageAsync(e.Message.Chat.Id, "Товар в базі даних, якщо хочеш додати ще один, напиши /shape");
             }
-          await  client.SendTextMessageAsync(e.Message.Chat.Id, "Товар в базі даних, якщо хочеш додати ще один, напиши /shape");
         }
 
         public async void SendProductAsync()
@@ -178,7 +177,14 @@ namespace OptShopAPI.Services
 
         public  async void SendingDataAboutCustomer(string message)
         {
-            await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
+            try
+            {
+                await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
+            }
+            catch
+            {
+                await client.SendTextMessageAsync(MyChatId, message);
+            }
        }
       
 
@@ -193,12 +199,5 @@ namespace OptShopAPI.Services
 
             return randomString;
         } 
-
-      
-
-        }
     }
-
-
-        
-
+}

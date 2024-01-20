@@ -89,7 +89,10 @@ namespace OptShopAPI.Controllers
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             List<string> ordersId = new List<string>();
-            ordersId = StringService.SplitString(customer.orderIds);
+
+           
+            var payment = _context.payments.First(x=>x.Id == Guid.Parse(customer.orderIds));
+            ordersId = StringService.SplitString(payment.orderids);
 
             List<Product> orderedProducts = new List<Product>();
 
@@ -97,7 +100,7 @@ namespace OptShopAPI.Controllers
 
             foreach(var item in ordersId)
             {
-                orderedProductsIdsAndCount.Add(_context.orders.First(x => x.Id == int.Parse(item)));
+                orderedProductsIdsAndCount.Add(_context.orders.First(x => x.Id == Guid.Parse(item)));
                 //orderedProducts.Add(_context.products.First(x=>x.id == int.Parse(item)));
             }
 
