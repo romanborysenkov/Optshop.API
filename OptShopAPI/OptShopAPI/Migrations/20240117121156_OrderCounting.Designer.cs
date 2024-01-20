@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OptShopAPI.Data;
 
@@ -10,9 +11,11 @@ using OptShopAPI.Data;
 namespace OptShopAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240117121156_OrderCounting")]
+    partial class OrderCounting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -79,9 +82,9 @@ namespace OptShopAPI.Migrations
 
             modelBuilder.Entity("OptShopAPI.Models.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("color")
                         .HasColumnType("TEXT");
@@ -104,29 +107,6 @@ namespace OptShopAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("orders");
-                });
-
-            modelBuilder.Entity("OptShopAPI.Models.Payment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("alreadyPaid")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("orderids")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("totalPrice")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("payments");
                 });
 
             modelBuilder.Entity("OptShopAPI.Models.Product", b =>

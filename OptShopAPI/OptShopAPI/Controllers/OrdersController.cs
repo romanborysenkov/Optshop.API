@@ -37,7 +37,7 @@ namespace OptShopAPI.Controllers
              }
 
           //  string orderIds = "";
-            int i = 1;
+           
             foreach(var o in order)
                 {
                 
