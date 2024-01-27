@@ -19,6 +19,8 @@ namespace OptShopAPI.Models
 
         public int alreadyPaid { get; set; }
 
+        public int deliveryPrice { get; set; }
+
         public PaymentStatus Status {  get; set; } = PaymentStatus.Prepaid;
     }
 }

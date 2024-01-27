@@ -10,6 +10,8 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Globalization;
+using Telegram.Bot.Requests.Abstractions;
 
 namespace OptShopAPI.Services
 {
@@ -18,7 +20,9 @@ namespace OptShopAPI.Services
         TelegramBotClient client;
 
         private const string token = "6423900666:AAHqwGibyyog-HoNRSADjkdPwv7-QRWWOhA";
-        private const long MyId = 385113590;
+       // private const long MyId = 385113590;
+        private long MyChatId = 385113590;
+
 
         public BotService()
         {
@@ -173,20 +177,48 @@ namespace OptShopAPI.Services
                 }
             } 
         }
-        private long MyChatId = 385113590;
-
-        public  async void SendingDataAboutCustomer(string message)
+        static string paymentid = "";
+        public  async void SendingDataAboutCustomer(string message, string paymentId)
         {
+            paymentid = paymentId;
             try
-            {
+            { 
+                client.OnMessage -= OnShapingProduct;
+                client.OnMessage -= ReceivePhotos;
+                client.OnMessage -= OnMessageReceiver;
+                client.OnMessage += SumariseDeliveryPrice;
+
+
                 await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
+               
             }
             catch
             {
                 await client.SendTextMessageAsync(MyChatId, message);
             }
        }
-      
+
+        public async void SumariseDeliveryPrice(object sender, MessageEventArgs e)
+        {
+            var msg = e.Message;
+            int deliveryPrice;
+           if(int.TryParse(msg.Text, out deliveryPrice))
+            {
+              using(HttpClient client = new HttpClient())
+                {
+                    PaymentUpdate payment = new PaymentUpdate(deliveryPrice, paymentid);
+                    var request = JsonConvert.SerializeObject(payment);
+                    
+                    var fin = new StringContent(request, Encoding.UTF8, "application/json");
+                    var response = await client.PutAsync($"http://localhost:5255/api/Payment/", fin);
+                }
+                client.OnMessage -= SumariseDeliveryPrice;
+                client.OnMessage += OnMessageReceiver;
+
+            }
+        }
+
+
 
         static string GenerateRandomString(int length)
         {

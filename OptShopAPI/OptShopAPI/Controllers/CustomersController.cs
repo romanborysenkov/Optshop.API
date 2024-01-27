@@ -112,7 +112,7 @@ namespace OptShopAPI.Controllers
            string message = ShapingMessage.InfoAboutCustomerAndOrdered(customer, orderedProducts, orderedProductsIdsAndCount);
 
             BotService service = new BotService();
-            service.SendingDataAboutCustomer(message);
+            service.SendingDataAboutCustomer(message, customer.orderIds);
             
 
             _context.customers.Add(customer);
