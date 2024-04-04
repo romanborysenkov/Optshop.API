@@ -16,79 +16,80 @@ namespace OptShopAPI.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly DataContext _context;
-
+        OrdersBotService botService;
         public CustomersController(DataContext context)
         {
             _context = context;
+            this.botService = new OrdersBotService();
         }
 
         // GET: api/Customers
-     /*   [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> Getcustomers()
-        {
-          if (_context.customers == null)
-          {
-              return NotFound();
-          }
-            return await _context.customers.ToListAsync();
-        }
+        /*   [HttpGet]
+           public async Task<ActionResult<IEnumerable<Customer>>> Getcustomers()
+           {
+             if (_context.customers == null)
+             {
+                 return NotFound();
+             }
+               return await _context.customers.ToListAsync();
+           }
 
-        // GET: api/Customers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
-        {
-          if (_context.customers == null)
-          {
-              return NotFound();
-          }
-            var customer = await _context.customers.FindAsync(id);
+           // GET: api/Customers/5
+           [HttpGet("{id}")]
+           public async Task<ActionResult<Customer>> GetCustomer(int id)
+           {
+             if (_context.customers == null)
+             {
+                 return NotFound();
+             }
+               var customer = await _context.customers.FindAsync(id);
 
-            if (customer == null)
-            {
-                return NotFound();
-            }
+               if (customer == null)
+               {
+                   return NotFound();
+               }
 
-            return customer;
-        }
+               return customer;
+           }
 
-        // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
-        {
-            if (id != customer.id)
-            {
-                return BadRequest();
-            }
+           // PUT: api/Customers/5
+           // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+           [HttpPut("{id}")]
+           public async Task<IActionResult> PutCustomer(int id, Customer customer)
+           {
+               if (id != customer.id)
+               {
+                   return BadRequest();
+               }
 
-            _context.Entry(customer).State = EntityState.Modified;
+               _context.Entry(customer).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+               try
+               {
+                   await _context.SaveChangesAsync();
+               }
+               catch (DbUpdateConcurrencyException)
+               {
+                   if (!CustomerExists(id))
+                   {
+                       return NotFound();
+                   }
+                   else
+                   {
+                       throw;
+                   }
+               }
 
-            return NoContent();
-        }
-     */
+               return NoContent();
+           }
+        */
 
         // POST: api/Customers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            List<string> ordersId = new List<string>();
+           /* List<string> ordersId = new List<string>();
 
            
             var payment = _context.payments.First(x=>x.Id == Guid.Parse(customer.orderIds));
@@ -111,10 +112,8 @@ namespace OptShopAPI.Controllers
 
            string message = ShapingMessage.InfoAboutCustomerAndOrdered(customer, orderedProducts, orderedProductsIdsAndCount);
 
-            BotService service = new BotService();
-            service.SendingDataAboutCustomer(message, customer.orderIds);
-            
-
+            botService.SendingDataAboutCustomer(message, customer.orderIds);
+            */
             _context.customers.Add(customer);
             await _context.SaveChangesAsync();
 

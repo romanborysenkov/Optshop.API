@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>F:\programming\Angular\OptShop\Optshop.API\OptShopAPI\OptShopAPI\bin\Release\\publish\</_PublishTargetUrl>
+    <History>True|2024-02-29T13:32:42.2286518Z;True|2024-02-29T15:32:04.9466735+02:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="OptshopConnectionConnectionString">
+      <Value>Data source=OptShop.db</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

@@ -9,7 +9,7 @@ namespace OptShopAPI.Data
     {
         public DataContext(DbContextOptions<DataContext>options):base(options) { }
 
-        public DbSet<Product>? products { get; set; }
+      public DbSet<Product> products { get; set; }
 
         public DbSet<Customer> customers { get; set; }
 

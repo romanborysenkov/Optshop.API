@@ -31,9 +31,6 @@ namespace OptShopAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("eircode")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -42,20 +39,12 @@ namespace OptShopAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("mailbox")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("orderIds")
+                    b.Property<string>("index")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("phoneNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("plz")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("postalCode")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("province")
@@ -67,9 +56,6 @@ namespace OptShopAPI.Migrations
 
                     b.Property<string>("username")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("zip_code")
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
@@ -118,10 +104,16 @@ namespace OptShopAPI.Migrations
                     b.Property<int>("alreadyPaid")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("cardInfo")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("deliveryPrice")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("orderids")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ownerId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("totalPrice")
@@ -163,9 +155,12 @@ namespace OptShopAPI.Migrations
                     b.Property<string>("photoSrc")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("price")
+                    b.Property<double?>("price")
                         .IsRequired()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("size")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("id");
 

@@ -34,6 +34,7 @@ namespace OptShopAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
+          
           if (_context.products == null)
           {
               return NotFound();
@@ -118,7 +119,6 @@ namespace OptShopAPI.Controllers
             List<Product>result = new List<Product>();
             if(keyword == "undefined")
             {
-                
                 result = _context.products.Take(12).ToList(); 
             }else{
               

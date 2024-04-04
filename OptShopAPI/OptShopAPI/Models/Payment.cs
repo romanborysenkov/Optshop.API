@@ -22,5 +22,10 @@ namespace OptShopAPI.Models
         public int deliveryPrice { get; set; }
 
         public PaymentStatus Status {  get; set; } = PaymentStatus.Prepaid;
+
+        public string? ownerId { get; set; }
+
+        public string? cardInfo { get; set;}
+
     }
 }
