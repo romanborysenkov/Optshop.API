@@ -12,16 +12,17 @@ using System.IO;
 using System.Reflection;
 using System.Globalization;
 using Telegram.Bot.Requests.Abstractions;
+using System.Text.RegularExpressions;
 
 namespace OptShopAPI.Services
 {
     public class BotService
     {
-        TelegramBotClient client;
+      static TelegramBotClient client;
 
         private const string token = "6423900666:AAHqwGibyyog-HoNRSADjkdPwv7-QRWWOhA";
        // private const long MyId = 385113590;
-        private long MyChatId = 385113590;
+        private static long MyChatId = 385113590;
 
 
         public BotService()
@@ -30,6 +31,8 @@ namespace OptShopAPI.Services
             client.OnMessage += OnMessageReceiver;
             client.StartReceiving();
         }
+
+        
 
         public void StopWork()
         {
@@ -43,11 +46,14 @@ namespace OptShopAPI.Services
         {
             var msg = e.Message;
 
+          
+
             if(msg.Text == "/start")
             {
                // ChatId ids = msg.Chat.Id;
                await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
             }
+
 
             if (msg.Text == "/shape")
             {
@@ -84,36 +90,44 @@ namespace OptShopAPI.Services
                     property += 1;
                     break;
                 case 3:
-                    product.price = int.Parse(e.Message.Text);
+                    if (e.Message.Text.Contains(".")) { product.price = double.Parse(e.Message.Text.Replace(".", ",")); }
+                    else
+                    {
+                        product.price = double.Parse(e.Message.Text);
+                    }
                     await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи характеристики товару: ");
                     property += 1;
                     break;
                 case 4:
-                    product.characters = e.Message.Text;
+                   product.characters = e.Message.Text.Replace("\n", "<br>");
                     await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кольори товару англійською через пробіл:");
                     property += 1;
                     break;
                 case 5:
-                    product.color = e.Message.Text;
+
+                    product.color = e.Message.Text.ToLower();
                     await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи мінімальну кількість товару, яку може замовити користувач: ");
                     property += 1;
                     break;
                 case 6:
-
                     product.minimalCount = int.Parse(e.Message.Text);
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи розміри товару через пробіл; якщо їх нема напиши 0:");
+                    property += 1;
+                    break;
+
+                case 7:
+                    if (e.Message.Text != "0")
+                    {
+                        product.size = e.Message.Text;
+                    }
                     await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи кількість зображень, які заллєш: ");
                     property += 1;
                     break;
-                case 7:
-                  
+                case 8:
                      photosCount = int.Parse(e.Message.Text);
-
                     client.OnMessage += ReceivePhotos;
                     client.OnMessage -= OnShapingProduct;
                     await client.SendTextMessageAsync(e.Message.Chat.Id, "Відправ вказану кількість зображень І ВІДПРАВ ЇХ ОДНИМ ПОВІДОМЛЕННЯМ!!!!");
-
-
-
                     break;
 
             }     
@@ -127,7 +141,7 @@ namespace OptShopAPI.Services
                 photos.Add(await client.GetFileAsync(e.Message.Photo[e.Message.Photo.Count() - 1].FileId));
                 photosCount--;
             }
-             if (photosCount == 0)
+            if (photosCount == 0)
             {
                 client.OnMessage += OnMessageReceiver;
                 client.OnMessage -= ReceivePhotos;
@@ -163,62 +177,22 @@ namespace OptShopAPI.Services
                     var request = JsonConvert.SerializeObject(product);
 
                     var fin = new StringContent(request, Encoding.UTF8, "application/json");
-                    var result = await client.PostAsync("http://localhost:5255/api/Products/", fin);
-
+                // var result = await client.PostAsync("https://optshop-antek-dev-001.azurewebsites.net/api/Products/", fin);
+                var result = await client.PostAsync("http://localhost:5000/api/Products", fin);
                     i = 0;
                 foreach (var s in stream)
                 {
                     product.photoFile = new MultipartFormDataContent();
                     product.photoFile.Add(new StreamContent(s), "photo", filesnames[i]);
                     i++;
-                    var response = await client.PostAsync("http://localhost:5255/api/Products/UploadFile", product.photoFile);
-                   await Task.Delay(1000);
+                    //  var response = await client.PostAsync("https://optshop-antek-dev-001.azurewebsites.net/api/Products/UploadFile", product.photoFile);
+                    var response = await client.PostAsync("http://localhost:5000/api/Products/UploadFile", product.photoFile);
+
+                    await Task.Delay(1000);
                     product = new Product();
                 }
             } 
         }
-        static string paymentid = "";
-        public  async void SendingDataAboutCustomer(string message, string paymentId)
-        {
-            paymentid = paymentId;
-            try
-            { 
-                client.OnMessage -= OnShapingProduct;
-                client.OnMessage -= ReceivePhotos;
-                client.OnMessage -= OnMessageReceiver;
-                client.OnMessage += SumariseDeliveryPrice;
-
-
-                await client.SendTextMessageAsync(MyChatId, message, Telegram.Bot.Types.Enums.ParseMode.Html);
-               
-            }
-            catch
-            {
-                await client.SendTextMessageAsync(MyChatId, message);
-            }
-       }
-
-        public async void SumariseDeliveryPrice(object sender, MessageEventArgs e)
-        {
-            var msg = e.Message;
-            int deliveryPrice;
-           if(int.TryParse(msg.Text, out deliveryPrice))
-            {
-              using(HttpClient client = new HttpClient())
-                {
-                    PaymentUpdate payment = new PaymentUpdate(deliveryPrice, paymentid);
-                    var request = JsonConvert.SerializeObject(payment);
-                    
-                    var fin = new StringContent(request, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync($"http://localhost:5255/api/Payment/", fin);
-                }
-                client.OnMessage -= SumariseDeliveryPrice;
-                client.OnMessage += OnMessageReceiver;
-
-            }
-        }
-
-
 
         static string GenerateRandomString(int length)
         {

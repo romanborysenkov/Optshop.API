@@ -2,9 +2,11 @@
 {
     public class PaymentUpdate
     {
-        public string Id { get; set; }  
+        public string? Id { get; set; }  
         public int DeliveryPrice { get; set; }
         public string PaymentId {  get; set; }
+
+        public PaymentUpdate() { }
 
         public PaymentUpdate( int deliveryPrice, string paymentId)
         {

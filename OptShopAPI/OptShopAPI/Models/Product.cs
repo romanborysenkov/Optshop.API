@@ -9,6 +9,7 @@ namespace OptShopAPI.Models
     public class Product
     {
         [Key, Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]
@@ -20,7 +21,7 @@ namespace OptShopAPI.Models
         public string? description { get; set; }
 
         [Required]
-        public int? price { get; set; }
+        public double? price { get; set; }
 
         [Required]
        
@@ -31,6 +32,8 @@ namespace OptShopAPI.Models
         public string? color { get; set; }
 
         public int minimalCount { get; set; }
+
+        public string? size { get; set; }
 
         
         [NotMapped]

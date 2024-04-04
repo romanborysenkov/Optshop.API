@@ -22,20 +22,14 @@ namespace OptShopAPI.Models
 
         public string streetAddress { get; set; }
 
-        
-        public string? postalCode { get; set; }
+        public string houseNumber { get; set; }
 
-        public string? zip_code { get; set;}
+        public string index { get; set; }
 
+      //  public string? orderIds { get; set; }
         public string? province { get; set;}
 
-        public string? plz { get;set; }
 
-        public string? orderIds { get; set; }
-
-        public string houseNumber {  get; set; }
-        public string? mailbox { get; set; }
-        public string? eircode { get; set; }    
-
+      
     }
 }
