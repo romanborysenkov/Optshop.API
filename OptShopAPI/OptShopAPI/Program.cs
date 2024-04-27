@@ -5,8 +5,44 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OptShopAPI.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.WebHost.ConfigureKestrel(opt =>
+{
+   opt.ListenAnyIP(5000, listenOptions=>{
+    listenOptions.UseHttps(httpsOptions=>{
+        var exampleCert = CertificateLoader.LoadFromStoreCert("optshopapi", "My", StoreLocation.CurrentUser, allowInvalid:true);
+    });
+});
+});
+
+/*
+ static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args).ConfigureServices((context, services) =>
+    {
+        HostConfig.CertPath = context.Configuration["CertPath"];
+        HostConfig.CertPassword = context.Configuration["CertPassword"];
+
+    }).ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.ConfigureKestrel(opt =>
+        {
+            opt.ListenAnyIP(5000);
+            opt.ListenAnyIP(5001, listOpt =>
+            {
+                listOpt.UseHttps(HostConfig.CertPath, HostConfig.CertPassword);
+            });
+        });
+    });
+*/
+// CreateHostBuilder(args).Build().Run();
+// CreateHostBuilder(args).Build().Run(); // WebApplication.CreateBuilder(args);
+
+
+
 
 // Add services to the container.
 
@@ -44,10 +80,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 var app = builder.Build();
 
-app.UseCors(options => options.WithOrigins("http://localhost:5700", "http://127.0.0.1:5700", "http://192.168.1.14:5700", "https://optshop-e7eb5.web.app").AllowAnyMethod().AllowAnyHeader());
+app.UseCors(options => options.WithOrigins("http://localhost:5700", "http://127.0.0.1:5700", "http://192.168.1.14:5700", "https://optshop-e7eb5.web.app", "https://xpantek.net").AllowAnyMethod().AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
 {
 
     app.UseDeveloperExceptionPage();
@@ -80,3 +116,8 @@ app.Run();
 
 
 
+
+public static class HostConfig{
+    public static string CertPath{get;set;}
+     public static string CertPassword { get; set; }
+}
