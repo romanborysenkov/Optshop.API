@@ -1385,3 +1385,8 @@ C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\obj\D
 C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\obj\Debug\net7.0\OptShopAPI.csproj.CopyComplete
 C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\obj\Debug\net7.0\OptShopAPI.genruntimeconfig.cache
 C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\obj\Debug\net7.0\ref\OptShopAPI.dll
+C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\bin\Debug\net7.0\Azure.AI.OpenAI.dll
+C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\bin\Debug\net7.0\Azure.AI.OpenAI.Assistants.dll
+C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\bin\Debug\net7.0\ChatGPT.Net.dll
+C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\bin\Debug\net7.0\HtmlAgilityPack.dll
+C:\Users\Roma\Documents\programming\Angular\OptShop\Optshop.API\OptShopAPI\bin\Debug\net7.0\System.ClientModel.dll

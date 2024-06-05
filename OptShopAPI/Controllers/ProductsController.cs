@@ -48,7 +48,7 @@ namespace OptShopAPI.Controllers
                 product.photoSrc.Replace("localhost:5000", Request.Host.ToString());
             }
 
-            return await _context.products.ToListAsync();
+            return result;
         }
 
         [HttpGet("/api/Find/{name}/{desc}/{count}")]
@@ -143,7 +143,7 @@ namespace OptShopAPI.Controllers
                 foreach (var r in result)
                 {
                     var firstImage = StringService.SplitString(r.photoSrc);
-                    r.photoSrc = firstImage.First().Replace("localhost:5000", Request.Host.ToString()).Replace("http","https");
+                    r.photoSrc = firstImage.First().Replace("localhost:5000", Request.Host.ToString()).Replace("http","https"); 
 
                 }
                 return result;
@@ -216,8 +216,6 @@ namespace OptShopAPI.Controllers
          
             return Ok();
         }
-    
-
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]

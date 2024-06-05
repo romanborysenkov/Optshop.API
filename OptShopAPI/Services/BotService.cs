@@ -13,6 +13,11 @@ using System.Reflection;
 using System.Globalization;
 using Telegram.Bot.Requests.Abstractions;
 using System.Text.RegularExpressions;
+using Azure.AI.OpenAI;
+using System.Text.Json.Serialization;
+using HtmlAgilityPack;
+using System.Linq;
+using System.Net;
 
 namespace OptShopAPI.Services
 {
@@ -24,9 +29,10 @@ namespace OptShopAPI.Services
        // private const long MyId = 385113590;
         private static long MyChatId = 385113590;
 
+        OpenAIClient openai;
 
         public BotService()
-        {
+        { 
             client = new TelegramBotClient(token);
             client.OnMessage += OnMessageReceiver;
             client.StartReceiving();
@@ -46,32 +52,188 @@ namespace OptShopAPI.Services
         {
             var msg = e.Message;
 
-          
-
-            if(msg.Text == "/start")
+            using(var httpClient = new HttpClient())
             {
-               // ChatId ids = msg.Chat.Id;
-               await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
+                var html = httpClient.GetStringAsync(msg.Text).Result;
+                var htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(html);
+
+
+    // Name:
+                var ProductNameElement = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='product-title-container']");
+                product.name = ProductNameElement.InnerText.Trim();
+                product.OriginalLink = msg.Text;
+
+                Console.WriteLine("Product name: \n"+ product.name);
+
+
+    // Attributes: 
+                var ProductCharacteristics = htmlDocument.DocumentNode.Descendants("div").First(node => node.GetAttributeValue("class", "")
+                .Contains("attribute-info"));
+
+                foreach (var item in ProductCharacteristics.ChildNodes)
+                {
+                    if (item.Name == "div")
+                    {
+                        var list = item.ChildNodes;
+
+                        foreach (var i in list)
+                        {
+                            var nameNode = i.SelectSingleNode(".//div[@class='left']");
+                            var valueNode = i.SelectSingleNode(".//div[@class='right']");
+
+                            if (nameNode != null && valueNode != null)
+                            {
+                                string attributeName = nameNode.InnerText.Trim();
+                                string attributeValue = valueNode.InnerText.Trim();
+
+                                product.characters += attributeName + " " + attributeValue + "<br>";
+
+                                Console.WriteLine($"Attribute: {attributeName}, Value: {attributeValue}");
+                            }
+                        }
+                    } 
+                }
+
+                // Photo:
+                //  var Photos = htmlDocument.DocumentNode.Descendants("div").First(node => node.GetAttributeValue("class", "")
+                // .Contains("detail-product-image-container")); 
+              //  var deepNodes = htmlDocument.DocumentNode.SelectSingleNode("//div[@detail-module-name='module_productImage']//div[@class='detail-product-image-container']//div[@class='detail-product-image']");//div[@class='image-list']");//div[@class='image-list-slider']");
+
+              //  PrintNodes(deepNodes);
+              /*  httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+                var requestBody = new
+                {
+                    model = "gpt-4",
+                    messages = new[]
+                    {
+                         new {role = "user", content = $"Send me src of all images in image-list: {deepNodes.Descendants()}"}
+                     }
+                };
+
+                var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", requestBody);
+                if (response.IsSuccessStatusCode)
+                {
+                    var completionResponse = await response.Content.ReadFromJsonAsync<CompletionResponse>();
+
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, completionResponse?.Choices?[0].Message?.Content);
+                }*/
+
+
+                // var imageNodes = PhotoList.SelectNodes(".//img");
+                /* if (imageNodes != null)
+                 {
+                     foreach (var node in imageNodes)
+                     {
+                         var src = node.GetAttributeValue("src", "");
+                         Console.WriteLine(src);
+                     }
+                 }*/
+
+
+
+                // Color:
+
+
+                // Size:
+
+
+                // Minimal count: 
+                  WebClient wc = new WebClient();
+                  byte[] data = wc.DownloadData(msg.Text);
+                  string body = Encoding.ASCII.GetString(data);
+                Console.WriteLine(body);
+            /*
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+                var requestBody = new
+                {
+                    model = "gpt-4",
+                    messages = new[]
+                    {
+                         new {role = "user", content = $"Tell me all colors of this product and links to all images: {body}"}
+                     }
+                };
+
+                var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", requestBody);
+                if (response.IsSuccessStatusCode)
+                {
+                    var completionResponse = await response.Content.ReadFromJsonAsync<CompletionResponse>();
+
+                    await client.SendTextMessageAsync(e.Message.Chat.Id, completionResponse?.Choices?[0].Message?.Content);
+                }
+                */
+
+                /*
+  
+                }*/
+
+               
+
+                /* httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+                 var requestBody = new
+                 {
+                     model = "gpt-4",
+                     messages = new[]
+                     {
+                         new {role = "user", content = $"Tell me all characteristics of this product: {htmlDocument.Text}"}
+                     }
+                 };
+
+                 var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", requestBody);
+                 if (response.IsSuccessStatusCode)
+                 {
+                     var completionResponse = await response.Content.ReadFromJsonAsync<CompletionResponse>();
+
+                     await client.SendTextMessageAsync(e.Message.Chat.Id, completionResponse?.Choices?[0].Message?.Content);
+                 }*/
             }
 
+            /*   if(msg.Text == "/start")
+               {
+                  // ChatId ids = msg.Chat.Id;
+                  await client.SendTextMessageAsync(e.Message.Chat.Id, "Для того, щоб створити товар, пиши /shape, і далі слідуй за тим, що скаже бот.");
+               }
 
-            if (msg.Text == "/shape")
-            {
-                client.OnMessage -= OnMessageReceiver;
-                client.OnMessage += OnShapingProduct;
-                await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи оригінальний лінк на товар:");
 
+               if (msg.Text == "/shape")
+               {
+                   client.OnMessage -= OnMessageReceiver;
+                   client.OnMessage += OnShapingProduct;
+                   await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи оригінальний лінк на товар:");
+               }*/
 
-            }
-           
             // 385113590
 
+        }
+
+        static void PrintNodes(HtmlNode node, int level = 0)
+        {
+            
+            string indent = new string(' ', level * 2);
+
+          
+                Console.WriteLine($"{indent}<{node.Name}>: {node.GetAttributeValue("src", "")} : {node.GetAttributeValue("class","")}");//InnerText.Trim()}");
+           
+                foreach (var childNode in node.ChildNodes)
+                {
+                    PrintNodes(childNode, level + 1);
+                }
+            
         }
 
         Product product = new Product();
         int property = 0;
         List<Telegram.Bot.Types.File> photos = new List<Telegram.Bot.Types.File>();
         static int photosCount = 0;
+
+        public async void OnAnalyzeProduct(object sender, MessageEventArgs e)
+        {
+            await client.SendTextMessageAsync(e.Message.Chat.Id, "Введи посилання: ");
+
+        }
 
         public async void OnShapingProduct(object sender, MessageEventArgs e)
         {
@@ -208,4 +370,27 @@ namespace OptShopAPI.Services
             return randomString;
         } 
     }
+
+
+    public class CompletionResponse
+    {
+        [JsonPropertyName("choices")]
+        public Choice[] Choices { get; set; }
+    }
+
+    public class Choice
+    {
+        [JsonPropertyName("message")]
+        public Message Message { get; set; }
+    }
+
+    public class Message
+    {
+        [JsonPropertyName("role")]
+        public string Role { get; set; }
+
+        [JsonPropertyName("content")]
+        public string Content { get; set; }
+    }
+
 }
