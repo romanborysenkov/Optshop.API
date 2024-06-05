@@ -11,19 +11,23 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+/*
 builder.WebHost.ConfigureKestrel((context, serverOptions)=>
 {
-    HostConfig.CertPath = context.Configuration["CertPath"];
-    HostConfig.CertPassword = context.Configuration["CertPassword"];
-serverOptions.ListenAnyIP(5000);
+    //var host = Dns.GetHostEntry("192.168.1.7");
+    // HostConfig.CertPath = context.Configuration["CertPath"];
+    //HostConfig.CertPassword = context.Configuration["CertPassword"];
+
+    serverOptions.ListenAnyIP(5000);
+
+   // serverOptions.Listen(host.AddressList[0], 5000);
     serverOptions.ListenAnyIP(5001, listOpt =>
     {
         listOpt.UseHttps(HostConfig.CertPath, "HelloMary");
-    });
 
-     
+    });  
 });
+*/
 
 builder.Services.AddControllers();
 

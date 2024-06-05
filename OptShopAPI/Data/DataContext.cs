@@ -16,5 +16,7 @@ namespace OptShopAPI.Data
         public DbSet<Order> orders { get; set; }
 
         public DbSet<Payment> payments { get; set; }
+
+        public DbSet<Review> reviews { get; set; }
     }
 }
