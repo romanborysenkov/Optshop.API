@@ -31,12 +31,8 @@ namespace OptShopAPI.Services
 
         OpenAIClient openai;
 
-        private string apiKey = "sk-proj-qUDfgm6nJZYxLEHLKOChT3BlbkFJjn3kM6ah8v0dbSYqIyxI";
-
         public BotService()
-        {
-            openai = new OpenAIClient("sk-proj-qUDfgm6nJZYxLEHLKOChT3BlbkFJjn3kM6ah8v0dbSYqIyxI");
-          
+        { 
             client = new TelegramBotClient(token);
             client.OnMessage += OnMessageReceiver;
             client.StartReceiving();
@@ -170,47 +166,10 @@ namespace OptShopAPI.Services
                 */
 
                 /*
-  var ProductCount = htmlDocument.DocumentNode.Descendants("div").First(node => node.GetAttributeValue("class", "")
-                           .Contains("layout-overview"));
-
-                foreach (var item in ProductCount.ChildNodes)
-                {
-                    if (item.Name == "div")
-                    {
-
-                        if (item.GetClasses().Contains("module_sku"))
-                        {
-                            var list = item.ChildNodes[0];
-
-                            var colorNodes = list.SelectNodes("//div[@class='sku-info']");
-
-                            var cN = colorNodes[0].SelectNodes("//div[@class='info-item']");
-
-                            if (cN != null)
-                            {
-                                Console.WriteLine("Кольори товару:");
-                                foreach (var colorNode in cN)
-                                {
-                                    Console.WriteLine(colorNode.InnerText.Trim());
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Кольори товару не знайдено.");
-                            }
-
-
-
-                        }
-                    }
+  
                 }*/
 
-                /*
-                var divs = htmlDocument.DocumentNode.Descendants("div").First(node => node.GetAttributeValue("class", "")
-                .Contains("layout-overview"));
-
-                Console.WriteLine(divs.InnerHtml);
-                */
+               
 
                 /* httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
